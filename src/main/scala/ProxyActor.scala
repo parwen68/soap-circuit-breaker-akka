@@ -7,7 +7,7 @@ import scala.concurrent.ExecutionContext
 import scala.util.{Failure, Success}
 import akka.pattern.{CircuitBreaker, ask}
 
-class ProxyInboundActor(targetUrl: String, publishUrl: String, out: ActorRef) extends Consumer with Responder {
+class ProxyInboundActor(targetUrl: String, publishUrl: String, out: ActorRef) extends Consumer {
   def endpointUri = s"cxf:${publishUrl}?wsdlURL=${targetUrl}%3Fwsdl&dataFormat=RAW&loggingFeatureEnabled=true"
 
   import ExecutionContext.Implicits.global

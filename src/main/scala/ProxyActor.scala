@@ -1,4 +1,4 @@
-import akka.actor.{ ActorRef, Actor, Status }
+import akka.actor.{ActorRef, Actor, Status}
 import akka.camel.{Producer, CamelMessage, Consumer}
 import akka.util.Timeout
 import org.apache.camel.converter.stream.InputStreamCache
@@ -7,8 +7,8 @@ import scala.concurrent.ExecutionContext
 import scala.util.{Failure, Success}
 import akka.pattern.{CircuitBreaker, ask}
 
-class ProxyInboundActor(targetUrl: String, publishUrl: String, out: ActorRef) extends Consumer {
-  def endpointUri = s"cxf:${publishUrl}?wsdlURL=${targetUrl}%3Fwsdl&dataFormat=RAW&loggingFeatureEnabled=true"
+class ProxyInboundActor(pc: ProxyConf, out: ActorRef) extends Consumer {
+  def endpointUri = s"cxf:${pc.source}?wsdlURL=${pc.target}%3Fwsdl&dataFormat=RAW&loggingFeatureEnabled=true&portName=${pc.portName}"
 
   import ExecutionContext.Implicits.global
 
@@ -40,8 +40,8 @@ class ProxyInboundActor(targetUrl: String, publishUrl: String, out: ActorRef) ex
   }
 }
 
-class ProxyOutboundActor(targetUrl: String) extends Actor with Producer {
-  def endpointUri = s"cxf:${targetUrl}?dataFormat=RAW"
+class ProxyOutboundActor(pc: ProxyConf) extends Actor with Producer {
+  def endpointUri = s"cxf:${pc.target}?dataFormat=RAW&portName=${pc.portName}"
 }
 
 

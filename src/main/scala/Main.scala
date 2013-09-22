@@ -1,11 +1,15 @@
 import akka.actor.{Props, ActorSystem}
 
-class Proxies(map: Map[String,String])(implicit val actorSystem: ActorSystem) {
+
+
+case class ProxyConf(source: String, target: String, portName: String)
+
+class Proxies(map: List[ProxyConf])(implicit val actorSystem: ActorSystem) {
 
   def setup = {
-    map.map{ case (from, to) =>
-      val producer = actorSystem.actorOf(Props(classOf[ProxyOutboundActor], to))
-      val consumer = actorSystem.actorOf(Props(classOf[ProxyInboundActor], to, from, producer))
+    map.map{ case proxyConf =>
+      val producer = actorSystem.actorOf(Props(classOf[ProxyOutboundActor], proxyConf))
+      val consumer = actorSystem.actorOf(Props(classOf[ProxyInboundActor], proxyConf, producer))
       (consumer, producer)
     }
   }
@@ -19,8 +23,10 @@ object Main {
 
     val service = actorSystem.actorOf(Props[HelloActor], "service")
 
-    val proxies = new Proxies(Map(
-      "http://localhost:8081/services" -> "http://localhost:8080/services"
+    val proxies = new Proxies(List(
+      ProxyConf("http://localhost:8081/services", "http://localhost:8080/services","{http://apache.org/hello_world_soap_http}SoapPort"),
+      ProxyConf("http://localhost:8081/currency", "http://www.webservicex.net/CurrencyConvertor.asmx", "{http://www.webserviceX.NET/}CurrencyConvertorSoap"),
+      ProxyConf("http://localhost:8081/stocks", "http://www.webservicex.net/stockquote.asmx", "{http://www.webserviceX.NET/}StockQuoteSoap")
     )).setup
   }
 }

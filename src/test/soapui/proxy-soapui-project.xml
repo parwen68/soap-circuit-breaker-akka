@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project activeEnvironment="Default" name="proxy" resourceRoot="" soapui-version="4.5.1" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="Greeter_SOAPBinding" type="wsdl" bindingName="{http://apache.org/hello_world_soap_http}Greeter_SOAPBinding" soapVersion="1_1" anonymous="optional" definition="http://localhost:8081/services?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8081/services?wsdl"><con:part><con:url>http://localhost:8081/services?wsdl</con:url><con:content><![CDATA[<definitions name="HelloWorld" targetNamespace="http://apache.org/hello_world_soap_http" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:x1="http://apache.org/hello_world_soap_http/types" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://apache.org/hello_world_soap_http" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <schema elementFormDefault="qualified" targetNamespace="http://apache.org/hello_world_soap_http/types" xmlns:tns="http://apache.org/hello_world_soap_http/types" xmlns="http://www.w3.org/2001/XMLSchema">
+      <simpleType name="MyStringType">
+        <restriction base="string">
+          <maxLength value="30"/>
+        </restriction>
+      </simpleType>
+      <element name="sayHi">
+        <complexType/>
+      </element>
+      <element name="sayHiResponse">
+        <complexType>
+          <sequence>
+            <element name="responseType" type="string"/>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="greetMe">
+        <complexType>
+          <sequence>
+            <element name="requestType" type="tns:MyStringType"/>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="greetMeResponse">
+        <complexType>
+          <sequence>
+            <element name="responseType" type="string"/>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="greetMeOneWay">
+        <complexType>
+          <sequence>
+            <element name="requestType" type="string"/>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="pingMe">
+        <complexType/>
+      </element>
+      <element name="pingMeResponse">
+        <complexType/>
+      </element>
+      <element name="faultDetail">
+        <complexType>
+          <sequence>
+            <element name="minor" type="short"/>
+            <element name="major" type="short"/>
+          </sequence>
+        </complexType>
+      </element>
+    </schema>
+  </types>
+  <message name="sayHiRequest">
+    <part element="x1:sayHi" name="in"></part>
+  </message>
+  <message name="pingMeResponse">
+    <part element="x1:pingMeResponse" name="out"></part>
+  </message>
+  <message name="greetMeRequest">
+    <part element="x1:greetMe" name="in"></part>
+  </message>
+  <message name="sayHiResponse">
+    <part element="x1:sayHiResponse" name="out"></part>
+  </message>
+  <message name="greetMeResponse">
+    <part element="x1:greetMeResponse" name="out"></part>
+  </message>
+  <message name="pingMeRequest">
+    <part element="x1:pingMe" name="in"></part>
+  </message>
+  <message name="pingMeFault">
+    <part element="x1:faultDetail" name="faultDetail"></part>
+  </message>
+  <message name="greetMeOneWayRequest">
+    <part element="x1:greetMeOneWay" name="in"></part>
+  </message>
+  <portType name="Greeter">
+    <operation name="sayHi">
+      <input message="tns:sayHiRequest" name="sayHiRequest"></input>
+      <output message="tns:sayHiResponse" name="sayHiResponse"></output>
+    </operation>
+    <operation name="greetMe">
+      <input message="tns:greetMeRequest" name="greetMeRequest"></input>
+      <output message="tns:greetMeResponse" name="greetMeResponse"></output>
+    </operation>
+    <operation name="greetMeOneWay">
+      <input message="tns:greetMeOneWayRequest" name="greetMeOneWayRequest"></input>
+    </operation>
+    <operation name="pingMe">
+      <input message="tns:pingMeRequest" name="pingMeRequest"></input>
+      <output message="tns:pingMeResponse" name="pingMeResponse"></output>
+      <fault message="tns:pingMeFault" name="pingMeFault"></fault>
+    </operation>
+  </portType>
+  <binding name="Greeter_SOAPBinding" type="tns:Greeter">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="sayHi">
+      <soap:operation soapAction="" style="document"/>
+      <input name="sayHiRequest">
+        <soap:body use="literal"/>
+      </input>
+      <output name="sayHiResponse">
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="greetMe">
+      <soap:operation soapAction="" style="document"/>
+      <input name="greetMeRequest">
+        <soap:body use="literal"/>
+      </input>
+      <output name="greetMeResponse">
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="greetMeOneWay">
+      <soap:operation soapAction="" style="document"/>
+      <input name="greetMeOneWayRequest">
+        <soap:body use="literal"/>
+      </input>
+    </operation>
+    <operation name="pingMe">
+      <soap:operation style="document"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+      <fault name="pingMeFault">
+        <soap:fault name="pingMeFault" use="literal"/>
+      </fault>
+    </operation>
+  </binding>
+  <service name="SOAPService">
+    <port binding="tns:Greeter_SOAPBinding" name="SoapPort">
+      <soap:address location="http://localhost:8081/services"/>
+    </port>
+  </service>
+</definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://localhost:8081/services</con:endpoint></con:endpoints><con:operation isOneWay="false" action="" name="greetMe" bindingOperationName="greetMe" type="Request-Response" outputName="greetMeResponse" inputName="greetMeRequest" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8081/services</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:typ="http://apache.org/hello_world_soap_http/types">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <typ:greetMe>
+         <typ:requestType>?</typ:requestType>
+      </typ:greetMe>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://apache.org/hello_world_soap_http/Greeter/greetMeRequest"/></con:call></con:operation><con:operation isOneWay="false" action="" name="greetMeOneWay" bindingOperationName="greetMeOneWay" type="One-Way" inputName="greetMeOneWayRequest" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8081/services</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:typ="http://apache.org/hello_world_soap_http/types">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <typ:greetMeOneWay>
+         <typ:requestType>?</typ:requestType>
+      </typ:greetMeOneWay>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://apache.org/hello_world_soap_http/Greeter/greetMeOneWayRequest"/></con:call></con:operation><con:operation isOneWay="false" action="" name="pingMe" bindingOperationName="pingMe" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8081/services</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:typ="http://apache.org/hello_world_soap_http/types">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <typ:pingMe/>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://apache.org/hello_world_soap_http/Greeter/pingMeRequest"/></con:call></con:operation><con:operation isOneWay="false" action="" name="sayHi" bindingOperationName="sayHi" type="Request-Response" outputName="sayHiResponse" inputName="sayHiRequest" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8081/services</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:typ="http://apache.org/hello_world_soap_http/types">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <typ:sayHi/>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://apache.org/hello_world_soap_http/Greeter/sayHiRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:testSuite name="TestSuite 1"><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="TestCase 1" searchProperties="true"><con:settings/><con:testStep type="request" name="Test Request"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>Greeter_SOAPBinding</con:interface><con:operation>sayHi</con:operation><con:request name="Test Request"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8081/services</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:typ="http://apache.org/hello_world_soap_http/types">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <typ:sayHi/>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response"/><con:assertion type="SOAP Fault Assertion" name="Not SOAP Fault"/><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:loadTest name="LoadTest 1"><con:settings/><con:threadCount>20</con:threadCount><con:startDelay>0</con:startDelay><con:sampleInterval>250</con:sampleInterval><con:calculateTPSOnTimePassed>true</con:calculateTPSOnTimePassed><con:resetStatisticsOnThreadCountChange>true</con:resetStatisticsOnThreadCountChange><con:historyLimit>-1</con:historyLimit><con:testLimit>10000</con:testLimit><con:limitType>COUNT</con:limitType><con:loadStrategy><con:type>Simple</con:type></con:loadStrategy><con:assertion type="Step Status" name="Step Status"/><con:maxAssertionErrors>100</con:maxAssertionErrors><con:cancelExcessiveThreads>true</con:cancelExcessiveThreads><con:strategyInterval>500</con:strategyInterval></con:loadTest><con:properties/></con:testCase><con:properties/></con:testSuite><con:properties/><con:wssContainer/></con:soapui-project>
